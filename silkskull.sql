@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS bestellung(
     bestellung_id INT PRIMARY KEY AUTO_INCREMENT,
     kunde_id INT,
     bestelldatum DATETIME NOT NULL,
-    FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id)
+    FOREIGN KEY (kunde_id) REFERENCES kunde(kunde_id),
+    retoure VARCHAR(10) DEFAULT 'Nein'
 );
 
 CREATE TABLE IF NOT EXISTS artikel(
