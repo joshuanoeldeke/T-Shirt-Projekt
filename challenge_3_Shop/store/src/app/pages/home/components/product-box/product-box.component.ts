@@ -10,10 +10,10 @@ export class ProductBoxComponent implements OnInit {
 product: Product | undefined = {
   id: 1,
   title: 'Snickers',
-  price: 15,
+  price: 150,
   category: 'Shoes',
-  description: 'Descriptiom',
-  image: 'https://via.placeholder.com/150',
+  description: 'Description',
+  image: 'https://via.placeholder.com/150'
 };
 @Output() addToCart = new EventEmitter();
 
