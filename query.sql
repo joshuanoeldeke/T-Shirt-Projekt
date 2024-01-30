@@ -11,7 +11,37 @@ create table products (
     category varchar(255),
     description varchar(255),
     image varchar(255)
-)
+);
+
+create table adress (
+                        adress_id int primary key auto_increment,
+                        firstname varchar(255),
+                        lastname varchar(255),
+                        street varchar(255),
+                        city varchar(255),
+                        postalcode varchar(255)
+);
+
+create table order_table (
+    order_id int primary key auto_increment,
+    adress_id int,
+    date datetime,
+    foreign key (adress_id) references adress(adress_id)
+);
+
+create table order_products (
+    order_id int,
+    product_id int,
+    amount decimal,
+    foreign key (order_id) references order_table(order_id),
+    foreign key (product_id) references products(id),
+    primary key (order_id,product_id)
+);
+
+
+
+
+
 
 
 INSERT INTO products (title, price, category, description, image)
