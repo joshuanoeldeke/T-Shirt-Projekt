@@ -13,16 +13,16 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstname = $_POST["Vorname"];
-    $lastname = $_POST["Nachname"];
+    $firstname = $_POST["firstname"];
+    $lastname = $_POST["lastname"];
     $email = $_POST["email"];
-    $street = $_POST["Straße"];
-    $city = $_POST["Ort"];
-    $postalcode = $_POST["PLZ"];
+    $street = $_POST["street"];
+    $city = $_POST["city"];
+    $postalcode = $_POST["postalcode"];
     // Hier können Sie weitere Felder hinzufügen
 
-    $sql = "INSERT INTO Orders (Name, Email)
-    VALUES ('$name', '$email')";
+    $sql = "INSERT INTO adress (firstname, lastname, street, city, postalcode)
+    VALUES ('$firstname', '$lastname', '$email', '$street', '$city', '$postalcode' )";
 
     if ($conn->query($sql) === TRUE) {
         echo "Neuer Eintrag erfolgreich erstellt";
@@ -83,13 +83,17 @@ $conn->close();
                 <label for="lastname">Nachname:</label>
                 <input type="text" id="lastname" name="lastname" required></li>
 
-        <li>    <label for="email">E-Mail:</label>
+        <li>    <form action="checkout_process.php" method="post">    
+            <label for="email">E-Mail:</label>
             <input type="email" id="email" name="email" required></li>
-        <li>              <label for="street">Straße mit Hausnummer:</label>
+        <li>    <form action="checkout_process.php" method="post">              
+            <label for="street">Straße mit Hausnummer:</label>
             <input id="street" name="street" required></input></li>
-        <li>              <label for="city">Ort:</label>
+        <li>    <form action="checkout_process.php" method="post">              
+            <label for="city">Ort:</label>
             <input id="city" name="city" required></input></li>
-        <li>              <label for="postalcode">PLZ:</label>
+        <li>    <form action="checkout_process.php" method="post">              
+            <label for="postalcode">PLZ:</label>
             <input id="postalcode" name="postalcode" required></input></li>
     </ul>
     <input type="submit">
