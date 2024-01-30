@@ -15,6 +15,7 @@ create table products (
 
 create table adress (
                         adress_id int primary key auto_increment,
+                        email varchar(255),
                         firstname varchar(255),
                         lastname varchar(255),
                         street varchar(255),
