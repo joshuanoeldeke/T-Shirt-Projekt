@@ -39,7 +39,14 @@ create table order_products (
 );
 
 
-
+create table cart (
+    cart_id int primary key auto_increment,
+    product varchar(255),
+    name varchar(255),
+    price decimal,
+    quantity int,
+    id int
+);
 
 
 
