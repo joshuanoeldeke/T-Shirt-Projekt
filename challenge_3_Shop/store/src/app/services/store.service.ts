@@ -17,15 +17,15 @@ export class StoreService {
         category?: string
     ): Observable<Array<Product>> {
         return this.httpClient.get<Array<Product>>(
-            `${STORE_BASE_URL}/products${
-                category ? '/category/' + category : ''
+            `${STORE_BASE_URL}${
+                category ? '?type=categories' + category : ''
             }?sort=${sort}&limit=${limit}`
         );
     }
 
     getAllCategories(): Observable<Array<string>> {
         return this.httpClient.get<Array<string>>(
-            `${STORE_BASE_URL}/products/categories`
+            `${STORE_BASE_URL}?type=categories`
         );
     }
 }

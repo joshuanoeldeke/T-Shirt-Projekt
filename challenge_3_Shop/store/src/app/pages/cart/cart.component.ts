@@ -68,7 +68,7 @@ export class CartComponent implements OnInit {
 
   onCheckout(): void {
     const cart = this.cart.items;
-    const url = 'http://your-php-url'; // URL Ihrer PHP-Seite
+    const url = 'http://localhost/user/checkout.php'; // URL Ihrer PHP-Seite
     this.http.post(url, cart).subscribe(
       response => console.log('Checkout erfolgreich', response),
       error => console.log('Fehler beim Checkout', error)
