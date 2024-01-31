@@ -66,12 +66,21 @@ export class CartComponent implements OnInit {
     this.cartService.removeQuantity(item);
   }
 
-  onCheckout(): void {
-    const cart = this.cart.items;
-    const url = 'http://localhost/user/checkout.php'; // URL Ihrer PHP-Seite
-    this.http.post(url, cart).subscribe(
-      response => console.log('Checkout erfolgreich', response),
-      error => console.log('Fehler beim Checkout', error)
-    );
+  onCheckout() {
+    const datetime = new Date().toISOString(); // Aktuelles Datum und Uhrzeit im ISO-Format
+
+    this.http.post('http://localhost/store/api.php', {
+      operation: 'write',
+      cart: this.cart,
+      datetime: datetime // Hinzufügen des datetime Elements
+    }).subscribe(response => {
+      console.log(response);
+      window.open('http://localhost/store/checkout.php', '_blank');
+    });
   }
+
+
+
+
+
 }
