@@ -127,6 +127,7 @@ $conn->close();
     <p>Anzahl: <?php echo $product["quantity"]; ?></p>
     <hr>
     <?php endforeach; ?>
+    <p>inkl. MwSt.</p>
 </section>
 
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
