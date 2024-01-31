@@ -16,18 +16,25 @@ if ($conn->connect_error) {
 $sql = "SELECT * FROM cart ORDER BY cart_id DESC LIMIT 1";
 $result = $conn->query($sql);
 
-$product_id = "";
-$product_name = "";
-$product_price = "";
-$product_quantity = "";
+$latest_timestamp = "";
 
 if ($result->num_rows > 0) {
     // Daten für das neueste Produkt in der Tabelle 'cart' ausgeben
     $row = $result->fetch_assoc();
-    $product_id = $row["id"];
-    $product_name = $row["name"];
-    $product_price = $row["price"];
-    $product_quantity = $row["quantity"];
+    $latest_timestamp = $row["timestamp"];
+}
+
+// SQL-Abfrage, um alle Einträge abzurufen, die bis zu 1 Sekunde vor dem neuesten Eintrag erstellt wurden
+$sql = "SELECT * FROM cart WHERE timestamp >= DATE_SUB('$latest_timestamp', INTERVAL 1 SECOND)";
+$result = $conn->query($sql);
+
+$products = [];
+
+if ($result->num_rows > 0) {
+    // Daten für alle relevanten Produkte in der Tabelle 'cart' ausgeben
+    while($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -53,15 +60,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($conn->query($sql) === TRUE) {
             $order_id = $conn->insert_id;
 
-            // SQL-Abfrage, um die Daten in die Tabelle 'order_products' einzufügen
-            $sql = "INSERT INTO order_products (order_id, product_id, amount)
-            VALUES ('$order_id', '$product_id', '$product_quantity')";
+            // Für jedes Produkt im Warenkorb eine neue Zeile in 'order_products' erstellen
+            foreach ($products as $product) {
+                $product_id = $product["id"];
+                $product_quantity = $product["quantity"];
 
-            if ($conn->query($sql) === TRUE) {
-                echo "Neuer Eintrag erfolgreich erstellt";
-            } else {
-                echo "Fehler: " . $sql . "<br>" . $conn->error;
+                // SQL-Abfrage, um die Daten in die Tabelle 'order_products' einzufügen
+                $sql = "INSERT INTO order_products (order_id, product_id, amount)
+                VALUES ('$order_id', '$product_id', '$product_quantity')";
+
+                if ($conn->query($sql) !== TRUE) {
+                    echo "Fehler: " . $sql . "<br>" . $conn->error;
+                }
             }
+
+            echo "Neuer Eintrag erfolgreich erstellt";
         } else {
             echo "Fehler: " . $sql . "<br>" . $conn->error;
         }
@@ -72,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="de">
@@ -107,13 +121,16 @@ $conn->close();
 
 <section>
     <h2>Produktinformation</h2>
-    <p>Name: <?php echo $product_name; ?></p>
-    <p>Preis: <?php echo $product_price; ?></p>
-    <p>Anzahl: <?php echo $product_quantity; ?></p>
+    <?php foreach ($products as $product): ?>
+    <p>Name: <?php echo $product["name"]; ?></p>
+    <p>Preis: <?php echo $product["price"]; ?></p>
+    <p>Anzahl: <?php echo $product["quantity"]; ?></p>
+    <hr>
+    <?php endforeach; ?>
 </section>
 
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
-    <h2>Ihre Daten :)</h2>
+    <h2>Ihre Daten:</h2>
     <ul>
         <li>
             <label for="email">E-Mail:</label>
@@ -149,3 +166,4 @@ $conn->close();
 
 </body>
 </html>
+
