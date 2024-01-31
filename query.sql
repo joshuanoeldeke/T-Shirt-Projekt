@@ -57,7 +57,7 @@ create table user (
 
 
 INSERT INTO products (title, price, category, description, image)
-VALUES ('T-Shirt', 19.99, 'clothing', 'Dies ist eine Beschreibung für Produkt 1', 'https://media.discordapp.net/attachments/1197137018145214555/1199683672190754816/tshirt_schwarz.jpg?ex=65c36f7c&is=65b0fa7c&hm=e135b142ec16bee04c7514d9cc8cd74685be1374b19452288177198fb0fd024e&=&format=webp&width=1029&height=1201');
+VALUES ('T-Shirt', 8.56, 'clothing', 'Dies ist eine Beschreibung für Produkt 1', 'https://media.discordapp.net/attachments/1197137018145214555/1199683672190754816/tshirt_schwarz.jpg?ex=65c36f7c&is=65b0fa7c&hm=e135b142ec16bee04c7514d9cc8cd74685be1374b19452288177198fb0fd024e&=&format=webp&width=1029&height=1201');
 
 INSERT INTO products (title, price, category, description, image)
 VALUES ('T-Shirt', 39.99, 'clothing', 'Dies ist eine Beschreibung für Produkt 2', 'https://media.discordapp.net/attachments/1197137018145214555/1199683671075074158/Hoodie_schwarz.jpg?ex=65c36f7c&is=65b0fa7c&hm=2d720854217051f51654fc2adb3c050a6dd57a83cbf868e9732d827a3a7636f1&=&format=webp&width=1029&height=1201');
