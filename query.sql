@@ -46,14 +46,18 @@ create table cart (
     name varchar(255),
     price decimal,
     quantity int,
-    id int
+    id int,
+    timestamp datetime
+);
+
+create table user (
+    username varchar(255) primary key,
+    password varchar(255)
 );
 
 
-
-
 INSERT INTO products (title, price, category, description, image)
-VALUES ('T-Shirt', 8.56, 'clothing', 'Dies ist eine Beschreibung für Produkt 1', 'https://media.discordapp.net/attachments/1197137018145214555/1199683672190754816/tshirt_schwarz.jpg?ex=65c36f7c&is=65b0fa7c&hm=e135b142ec16bee04c7514d9cc8cd74685be1374b19452288177198fb0fd024e&=&format=webp&width=1029&height=1201');
+VALUES ('T-Shirt', 19.99, 'clothing', 'Dies ist eine Beschreibung für Produkt 1', 'https://media.discordapp.net/attachments/1197137018145214555/1199683672190754816/tshirt_schwarz.jpg?ex=65c36f7c&is=65b0fa7c&hm=e135b142ec16bee04c7514d9cc8cd74685be1374b19452288177198fb0fd024e&=&format=webp&width=1029&height=1201');
 
 INSERT INTO products (title, price, category, description, image)
 VALUES ('T-Shirt', 39.99, 'clothing', 'Dies ist eine Beschreibung für Produkt 2', 'https://media.discordapp.net/attachments/1197137018145214555/1199683671075074158/Hoodie_schwarz.jpg?ex=65c36f7c&is=65b0fa7c&hm=2d720854217051f51654fc2adb3c050a6dd57a83cbf868e9732d827a3a7636f1&=&format=webp&width=1029&height=1201');
@@ -63,3 +67,31 @@ VALUES ('Porsche SMan Cay', 299999.99, 'vehicles', 'Dies ist eine Beschreibung f
 
 INSERT INTO products (title, price, category, description, image)
 VALUES ('USB-Stick', 9.99, 'tech', 'Dies ist eine Beschreibung für Produkt 4', 'https://media.discordapp.net/attachments/1197137018145214555/1199686825321701406/usb-flash-drive.png?ex=65c3726c&is=65b0fd6c&hm=5ea1535dae965f973ecd4108ee870eb381cef2800f47e8d4732a002d94717789&=&format=webp&quality=lossless&width=1030&height=1201');
+
+
+insert into user (username, password) VALUES ('admin', 'password');
+insert into user (username, password) VALUES ('mitarbeiter1', 'password1');
+
+
+CREATE VIEW OrderOverview AS
+SELECT
+    o.order_id,
+    p.title AS product_name,
+    op.amount AS quantity,
+    p.price,
+    op.amount * p.price AS total_price,
+    a.email,
+    a.firstname,
+    a.lastname,
+    a.street,
+    a.city,
+    a.postalcode
+FROM
+    order_table o
+        JOIN
+    adress a ON o.adress_id = a.adress_id
+        JOIN
+    order_products op ON o.order_id = op.order_id
+        JOIN
+    products p ON op.product_id = p.id
+ORDER BY o.order_id ASC;
